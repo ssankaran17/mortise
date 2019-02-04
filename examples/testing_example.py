@@ -9,8 +9,9 @@ class FirstState(mortise.State):
         return NextState
 
 
-class NextState: pass
-
+class NextState(mortise.State):
+    def on_enter(self, st):
+        st.common.entered = True
 
 class FirstState2(mortise.State):
     def on_state(self, st):
@@ -138,3 +139,7 @@ class TestMortise(testing_mortise.MortiseTest):
 
     def testOnEnter(self):
         self.assertNextState(OnEnterState, NextState)
+
+    def testNextOnEnter(self):
+        self.assertNextState(OnEnterState, NextState, {"entered": True},
+                             enter_next_state=True)
